@@ -4,8 +4,8 @@ version = "0.1.0"
 description = "Hypermodern Python project based on Claudio Jolowicz's \"Hypermodern Python\" series"
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/rmbarley/hypermodern_wiki"
-repository = "https://github.com/rmbarley/hypermodern_wiki"
+homepage = "https://github.com/rmbarley/hypermodern-wiki"
+repository = "https://github.com/rmbarley/hypermodern-wiki"
 authors = ["Ryan Barley <rmbarley@gmail.com>"]
 
 [tool.poetry.dependencies]
