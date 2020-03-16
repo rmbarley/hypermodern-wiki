@@ -1,8 +1,7 @@
 import click.testing
+from hypermodern_wiki import console
 import pytest
 import requests
-
-from hypermodern_wiki import console
 
 
 @pytest.fixture
@@ -11,13 +10,8 @@ def runner():
 
 
 @pytest.fixture
-def mock_requests_get(mocker):
-    mock = mocker.patch("requests.get")
-    mock.return_value.__enter__.return_value.json.return_value = {
-        "title": "Lorem Ipsum",
-        "extract": "Lorem ipsum dolor sit amet",
-    }
-    return mock
+def mock_wiki_page(mocker):
+    return mocker.patch("hypermodern_wiki.wikipedia.random_page")
 
 
 def test_main_succeeds(runner, mock_requests_get):
@@ -51,3 +45,14 @@ def test_main_prints_message_on_error(runner, mock_requests_get):
     mock_requests_get.side_effect = requests.RequestException
     result = runner.invoke(console.main)
     assert "Error" in result.output
+
+
+def test_main_uses_specified_language(runner, mock_wiki_page):
+    runner.invoke(console.main, ["--language=pl"])
+    mock_wiki_page.assert_called_with(language="pl")
+
+
+@pytest.mark.e2e
+def test_main_succeeds_in_prod(runner):
+    result = runner.invoke(console.main)
+    assert result.exit_code == 0
